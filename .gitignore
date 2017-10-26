@@ -6,3 +6,6 @@
 /XFormsRadioButton/XFormsRadioButton.iOS/obj
 /XFormsRadioButton/XFormsRadioButton.WinPhone
 /packages
+[Bb]in/
+[Dd]ebug/
+.vs/
