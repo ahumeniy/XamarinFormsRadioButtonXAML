@@ -8,40 +8,55 @@ using Xamarin.Controls.CustomControls.Android.Renderer;
 [assembly: ExportRenderer(typeof(CustomRadioButton), typeof(RadioButtonRenderer))]
 namespace Xamarin.Controls.CustomControls.Android.Renderer
 {
-    public class RadioButtonRenderer: ViewRenderer<CustomRadioButton, RadioButton>
+    public class RadioButtonRenderer : ViewRenderer<CustomRadioButton, RadioButton>
     {
+        bool isBusy = false;
+
         protected override void OnElementChanged(ElementChangedEventArgs<CustomRadioButton> e)
         {
             base.OnElementChanged(e);
 
-            if(e.OldElement != null)
+            isBusy = true;
+
+            try
             {
-                e.OldElement.PropertyChanged += ElementOnPropertyChanged;  
-            }
+                if (e.OldElement != null)
+                {
+                    e.OldElement.PropertyChanged += ElementOnPropertyChanged;
+                }
 
-            if(this.Control == null)
+                if (this.Control == null)
+                {
+                    var radButton = new RadioButton(this.Context);
+                    radButton.CheckedChange += radButton_CheckedChange;
+
+                    this.SetNativeControl(radButton);
+                }
+
+                Control.Text = e.NewElement.Text;
+                Control.Checked = e.NewElement.Checked;
+
+                Element.PropertyChanged += ElementOnPropertyChanged;
+            }
+            finally
             {
-                var radButton = new RadioButton(this.Context);
-                radButton.CheckedChange += radButton_CheckedChange;
-              
-                this.SetNativeControl(radButton);
+                isBusy = false;
             }
-
-            Control.Text = e.NewElement.Text;
-            Control.Checked = e.NewElement.Checked;
-
-            Element.PropertyChanged += ElementOnPropertyChanged;
         }
 
         void radButton_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
         {
+            if (isBusy) return;
             this.Element.Checked = e.IsChecked;
         }
 
-      
+
 
         void ElementOnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            if (isBusy) return;
+            if (Control == null || Element == null) return;
+
             switch (e.PropertyName)
             {
                 case "Checked":
