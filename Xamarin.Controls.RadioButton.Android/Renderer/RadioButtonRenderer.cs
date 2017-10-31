@@ -50,8 +50,6 @@ namespace Xamarin.Controls.CustomControls.Android.Renderer
             this.Element.Checked = e.IsChecked;
         }
 
-
-
         void ElementOnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (isBusy) return;

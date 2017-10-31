@@ -18,6 +18,8 @@ namespace Xamarin.Controls.CustomControls.iOS.Controls
     /// </summary>
     public class RadioButtonRenderer : ViewRenderer<CustomRadioButton, RadioButtonView>
     {
+        bool isBusy = false;
+
         public RadioButtonRenderer()
         {
 
@@ -39,12 +41,20 @@ namespace Xamarin.Controls.CustomControls.iOS.Controls
                 SetNativeControl(checkBox);
             }
 
-            Control.LineBreakMode = UILineBreakMode.CharacterWrap;
-            Control.VerticalAlignment = UIControlContentVerticalAlignment.Top;
-            Control.Text = e.NewElement.Text;
-            Control.Checked = e.NewElement.Checked;
-            Control.SetTitleColor(e.NewElement.TextColor.ToUIColor(), UIControlState.Normal);
-            Control.SetTitleColor(e.NewElement.TextColor.ToUIColor(), UIControlState.Selected);
+            isBusy = true;
+            try
+            {
+                Control.LineBreakMode = UILineBreakMode.CharacterWrap;
+                Control.VerticalAlignment = UIControlContentVerticalAlignment.Top;
+                Control.Text = e.NewElement.Text;
+                Control.Checked = e.NewElement.Checked;
+                Control.SetTitleColor(e.NewElement.TextColor.ToUIColor(), UIControlState.Normal);
+                Control.SetTitleColor(e.NewElement.TextColor.ToUIColor(), UIControlState.Selected);
+            }
+            finally
+            {
+                isBusy = false;
+            }
         }
 
         private void ResizeText()
@@ -83,6 +93,8 @@ namespace Xamarin.Controls.CustomControls.iOS.Controls
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
+
+            if (isBusy) return;
 
             switch (e.PropertyName)
             {
