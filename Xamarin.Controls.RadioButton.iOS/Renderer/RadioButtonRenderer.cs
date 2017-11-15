@@ -96,23 +96,31 @@ namespace Xamarin.Controls.CustomControls.iOS.Controls
 
             if (isBusy) return;
 
-            switch (e.PropertyName)
+            isBusy = true;
+            try
             {
-                case "Checked":
-                    Control.Checked = Element.Checked;
-                    break;
-                case "Text":
-                    Control.Text = Element.Text;
-                    break;
-                case "TextColor":
-                    Control.SetTitleColor(Element.TextColor.ToUIColor(), UIControlState.Normal);
-                    Control.SetTitleColor(Element.TextColor.ToUIColor(), UIControlState.Selected);
-                    break;
-                case "Element":
-                    break;
-                default:
-                    System.Diagnostics.Debug.WriteLine("Property change for {0} has not been implemented.", e.PropertyName);
-                    return;
+                switch (e.PropertyName)
+                {
+                    case "Checked":
+                        Control.Checked = Element.Checked;
+                        break;
+                    case "Text":
+                        Control.Text = Element.Text;
+                        break;
+                    case "TextColor":
+                        Control.SetTitleColor(Element.TextColor.ToUIColor(), UIControlState.Normal);
+                        Control.SetTitleColor(Element.TextColor.ToUIColor(), UIControlState.Selected);
+                        break;
+                    case "Element":
+                        break;
+                    default:
+                        System.Diagnostics.Debug.WriteLine("Property change for {0} has not been implemented.", e.PropertyName);
+                        return;
+                }
+            }
+            finally
+            {
+                isBusy = false;
             }
         }
     }

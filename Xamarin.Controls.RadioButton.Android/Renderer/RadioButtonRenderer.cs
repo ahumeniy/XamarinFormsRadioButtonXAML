@@ -55,15 +55,23 @@ namespace Xamarin.Controls.CustomControls.Android.Renderer
             if (isBusy) return;
             if (Control == null || Element == null) return;
 
-            switch (e.PropertyName)
+            isBusy = true;
+            try
             {
-                case "Checked":
-                    Control.Checked = Element.Checked;
-                    break;
-                case "Text":
-                    Control.Text = Element.Text;
-                    break;
+                switch (e.PropertyName)
+                {
+                    case "Checked":
+                        Control.Checked = Element.Checked;
+                        break;
+                    case "Text":
+                        Control.Text = Element.Text;
+                        break;
 
+                }
+            }
+            finally
+            {
+                isBusy = false;
             }
         }
     }
