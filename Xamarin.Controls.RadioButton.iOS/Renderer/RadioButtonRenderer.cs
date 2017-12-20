@@ -25,12 +25,20 @@ namespace Xamarin.Controls.CustomControls.iOS.Controls
 
         }
 
+        public static new void Init()
+        {
+#pragma warning disable 0219
+            var dummy = new RadioButtonRenderer();
+#pragma warning restore 0219
+        }
+
         protected override void OnElementChanged(ElementChangedEventArgs<CustomRadioButton> e)
         {
             base.OnElementChanged(e);
 
             System.Diagnostics.Debug.WriteLine("Renderizando Radio Button...");
 
+            if (Element == null) return;
             BackgroundColor = Element.BackgroundColor.ToUIColor();
 
             if (Control == null)
@@ -45,11 +53,15 @@ namespace Xamarin.Controls.CustomControls.iOS.Controls
             try
             {
                 Control.LineBreakMode = UILineBreakMode.CharacterWrap;
-                Control.VerticalAlignment = UIControlContentVerticalAlignment.Top;
+                Control.VerticalAlignment = UIControlContentVerticalAlignment.Center;
                 Control.Text = e.NewElement.Text;
+                Control.Font = Control.Font.WithSize((nfloat)e.NewElement.FontSize);
                 Control.Checked = e.NewElement.Checked;
-                Control.SetTitleColor(e.NewElement.TextColor.ToUIColor(), UIControlState.Normal);
-                Control.SetTitleColor(e.NewElement.TextColor.ToUIColor(), UIControlState.Selected);
+                var textColor = e.NewElement.TextColor;
+                if (textColor == Color.Default) textColor = Color.Black;
+
+                Control.SetTitleColor(textColor.ToUIColor(), UIControlState.Normal);
+                Control.SetTitleColor(textColor.ToUIColor(), UIControlState.Selected);
             }
             finally
             {
