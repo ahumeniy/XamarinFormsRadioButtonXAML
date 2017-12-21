@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>kirtisagar</authors>
+    <owners>kirtisagar</owners>
+    <projectUrl>https://git.netred.cl/ahumeniy/XamarinFormsRadioButtonXAML</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Radio Button control for Xamarin</description>
+    <releaseNotes>Version Inicial</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>Xamarin RadioButton Controls iOS</tags>
+  </metadata>
+</package>
